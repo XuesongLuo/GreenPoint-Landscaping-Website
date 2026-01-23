@@ -1,31 +1,50 @@
+/* src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400&display=swap');
 
-:root {
-  /* 宣纸色背景 */
-  --color-paper: #f2efea; 
-  /* 黛墨色文字 */
-  --color-ink: #1a1a1a;
-  /* 苍色（苔藓绿） */
-  --color-moss: #6b705c;
+/* V4 核心引入：这一行顶替了以前的三行 @tailwind 指令 */
+@import "tailwindcss";
 
+/* V4 主题配置：直接在这里定义你的设计系统 */
+@theme {
+  /* 颜色定义 (会自动生成 bg-paper, text-paper, border-paper 等) */
+  --color-paper: #F2EFEA;
+  --color-ink: #1A1A1A;
+  --color-moss: #8C927D;
+  --color-stone: #D1CDC4;
+
+  /* 字体定义 */
+  --font-serif: "Cormorant Garamond", "Noto Serif SC", serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* 字间距扩展 */
+  --tracking-widest: 0.25em;
+  --tracking-zen: 0.5em;
 }
 
-body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  margin: 0;
-  font-family: 'Noto Serif SC', 'Source Han Serif CN', serif; /* 优先使用宋体 */
-  -webkit-font-smoothing: antialiased;
+/* 自定义基础样式 */
+@layer base {
+  body {
+    /* 这里的变量已经是 Tailwind 识别的类名了 */
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  
+  /* 让所有标题默认使用衬线体 */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
 }
 
-
-/* 自定义滚动条，使其更隐蔽 */
+/* 滚动条样式保持不变 */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d1cdc4;   /* 浅石灰色 */
+  background: var(--color-stone); /* 这里也可以直接用 CSS 变量 */
+  border-radius: 3px;
 }
-
-
-
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-moss);
+}

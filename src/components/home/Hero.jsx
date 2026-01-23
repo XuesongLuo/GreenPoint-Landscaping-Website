@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 
+import { getAssetUrl } from '../../utils/imageHelper';
+
 const Hero = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
@@ -10,7 +12,12 @@ const Hero = () => {
         transition={{ duration: 2.5, ease: "easeOut" }}
         className="absolute inset-0 z-0"
       >
-        <img src="/assets/images/hero-bg.jpg" alt="Landscape" className="h-full w-full object-cover" />
+        <img 
+          src={getAssetUrl("/assets/images/hero-bg.jpg", "hero")} 
+          alt="Landscape" 
+          className="h-full w-full object-cover" 
+        />
+        {/* <img src="/assets/images/hero-bg.jpg" alt="Landscape" className="h-full w-full object-cover" /> */}
         <div className="absolute inset-0 bg-black/10 mix-blend-multiply" /> {/* 东方意境的压暗处理 */}
       </motion.div>
 
