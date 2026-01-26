@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { pageTransition } from '../animations/transitions';
 import { projectsData } from '../data/projects'; // 引入数据
 
 // 引入组件
@@ -23,7 +24,8 @@ const ProjectDetail = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (!project) return <div className="h-screen flex items-center justify-center">项目不存在</div>;
+  if (!project) return <div className="py-40 text-center font-serif">Project not found.</div>;
+
 
   return (
     <motion.div

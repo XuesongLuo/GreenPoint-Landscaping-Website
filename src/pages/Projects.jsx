@@ -19,14 +19,15 @@ const Projects = () => {
       
       <main className="pt-40 pb-20">
         <div className="px-6 md:px-20 mb-20">
-           <motion.h1 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             className="text-5xl md:text-6xl font-serif tracking-widest mb-4"
-           >
-             全案作品
-           </motion.h1>
-           <p className="text-xs uppercase tracking-[0.3em] opacity-40">Selected Works 2020-2024</p>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-serif tracking-zen mb-6 uppercase"
+          >
+            全案作品 Project Archive
+          </motion.h1>
+          <div className="h-[1px] w-20 bg-ink mb-4 opacity-20"></div> {/* 增加一根极细的线条 */}
+          <p className="text-xs uppercase tracking-[0.4em] opacity-40">融合东方哲思与加州现代生活</p>
         </div>
 
         {/* 这里复用之前的网格组件 */}
