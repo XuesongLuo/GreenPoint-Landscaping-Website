@@ -15,8 +15,8 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-01.jpg",
     gallery: ["/assets/images/p1-1.jpg", "/assets/images/p1-2.jpg"],
     plants: [
-      { name: "早樱", latin: "Cerasus sp.", type: "乔木" },
-      { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草" }
+      { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/cherry-blossom.jpg" },
+      { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草", image: "/assets/images/plants/cherry-blossom.jpg" }
     ]
   },
   {
@@ -34,9 +34,9 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-02.jpg",
     gallery: ["/assets/images/p2-1.jpg", "/assets/images/p2-2.jpg"],
     plants: [
-      { name: "百年油橄榄", latin: "Olea europaea", type: "核心主景" },
-      { name: "翡翠盘龙舌兰", latin: "Agave attenuata", type: "雕塑植物" },
-      { name: "墨西哥羽毛草", latin: "Nassella tenuissima", type: "观赏草" }
+      { name: "百年油橄榄", latin: "Olea europaea", type: "核心主景", image: "/assets/images/plants/cherry-blossom.jpg" },
+      { name: "翡翠盘龙舌兰", latin: "Agave attenuata", type: "雕塑植物", image: "/assets/images/plants/cherry-blossom.jpg" },
+      { name: "墨西哥羽毛草", latin: "Nassella tenuissima", type: "观赏草", image: "/assets/images/plants/cherry-blossom.jpg" }
     ]
   },
   {
@@ -54,9 +54,9 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-03.jpg",
     gallery: ["/assets/images/p3-1.jpg", "/assets/images/p3-3.jpg"],
     plants: [
-      { name: "加州活栎", latin: "Quercus agrifolia", type: "原生乔木" },
-      { name: "薰衣草", latin: "Lavandula", type: "地被" },
-      { name: "迷迭香", latin: "Rosmarinus officinalis", type: "灌木" }
+      { name: "加州活栎", latin: "Quercus agrifolia", type: "原生乔木", image: "/assets/images/plants/cherry-blossom.jpg" },
+      { name: "薰衣草", latin: "Lavandula", type: "地被", image: "/assets/images/plants/lavender.jpg" },
+      { name: "迷迭香", latin: "Rosmarinus officinalis", type: "灌木", image: "/assets/images/plants/cherry-blossom.jpg" }
     ]
   }
 ];

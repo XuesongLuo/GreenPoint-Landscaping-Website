@@ -12,6 +12,12 @@
   --color-moss: #8C927D;
   --color-stone: #D1CDC4;
 
+  /* 新增的意境色 */
+  --color-zen-white: #F9F8F6;  /* 映射为 bg-zen-white, text-zen-white 温暖的纸质感白色 */
+  --color-cali-sand: #E5D3B3;  /* 映射为 bg-cali-sand, text-cali-sand 加州沙滩色 */
+  --color-moss-deep: #3E4C33;  /* 映射为 bg-moss-deep, text-moss-deep 深苔藓绿 */
+  --color-ink-black: #1A1A1A;  /* 映射为 bg-ink-black, text-ink-black 东方水墨黑 */
+
   /* 字体定义 */
   --font-serif: "Cormorant Garamond", "Noto Serif SC", serif;
   --font-sans: "Inter", sans-serif;
@@ -25,7 +31,7 @@
 @layer base {
   body {
     /* 这里的变量已经是 Tailwind 识别的类名了 */
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-zen-white text-ink-black font-sans antialiased;
   }
   
   /* 让所有标题默认使用衬线体 */

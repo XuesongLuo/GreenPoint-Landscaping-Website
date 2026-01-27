@@ -10,7 +10,7 @@ import ProjectHeader from '../components/project/ProjectHeader';
 import ProjectInfo from '../components/project/ProjectInfo'; // 信息与文本
 import ImageGallery from '../components/project/ImageGallery';
 import PlantPalette from '../components/project/PlantPalette';
-import NextProjectLink from '../components/project/NextProjectLink';
+import ProjectNavigation from '../components/project/ProjectNavigation';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -36,7 +36,7 @@ const ProjectDetail = () => {
       {/* 4. 植物图谱 */}
       <PlantPalette plants={project.plants} />
 
-      <NextProjectLink currentId={project.id} />
+      <ProjectNavigation currentId={project.id} />
 
       <Footer />
     </div>
