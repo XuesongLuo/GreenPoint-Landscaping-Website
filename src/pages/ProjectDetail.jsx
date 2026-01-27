@@ -34,7 +34,7 @@ const ProjectDetail = () => {
       <ImageGallery images={project.gallery} />
 
       {/* 4. 植物图谱 */}
-      <PlantPalette plants={project.plants} />
+      <PlantPalette plants={project.plants} projectId={project.id} />
 
       <ProjectNavigation currentId={project.id} />
 

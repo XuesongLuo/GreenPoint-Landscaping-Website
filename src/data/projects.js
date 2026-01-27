@@ -15,8 +15,8 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-01.jpg",
     gallery: ["/assets/images/p1-1.jpg", "/assets/images/p1-2.jpg"],
     plants: [
-      { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/cherry-blossom.jpg" },
-      { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草", image: "/assets/images/plants/cherry-blossom.jpg" }
+      { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/lavender.png" },
+      { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草", image: "/assets/images/plants/lavender.png" }
     ]
   },
   {
@@ -34,9 +34,9 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-02.jpg",
     gallery: ["/assets/images/p2-1.jpg", "/assets/images/p2-2.jpg"],
     plants: [
-      { name: "百年油橄榄", latin: "Olea europaea", type: "核心主景", image: "/assets/images/plants/cherry-blossom.jpg" },
-      { name: "翡翠盘龙舌兰", latin: "Agave attenuata", type: "雕塑植物", image: "/assets/images/plants/cherry-blossom.jpg" },
-      { name: "墨西哥羽毛草", latin: "Nassella tenuissima", type: "观赏草", image: "/assets/images/plants/cherry-blossom.jpg" }
+      { name: "百年油橄榄", latin: "Olea europaea", type: "核心主景", image: "/assets/images/plants/lavender.png" },
+      { name: "翡翠盘龙舌兰", latin: "Agave attenuata", type: "雕塑植物", image: "/assets/images/plants/lavender.png" },
+      { name: "墨西哥羽毛草", latin: "Nassella tenuissima", type: "观赏草", image: "/assets/images/plants/lavender.png" }
     ]
   },
   {
