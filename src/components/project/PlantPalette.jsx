@@ -1,188 +1,157 @@
-// src/components/project/PlantPalette.jsx
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const PlantPalette = ({ plants }) => {
   if (!plants || plants.length === 0) return null;
 
+  // 定义桌面端布局的“线索点”坐标 (百分比位置)
+  // 我们手动指定位置，营造一种“精心设计的凌乱感”
+  const positions = [
+    { top: '10%', left: '5%', rotate: -6 },   // 左上
+    { top: '15%', right: '8%', rotate: 5 },   // 右上
+    { bottom: '15%', left: '12%', rotate: 4 }, // 左下
+    { bottom: '10%', right: '15%', rotate: -3 },// 右下
+    { top: '45%', right: '25%', rotate: 8 },  // 中右
+    { top: '50%', left: '25%', rotate: -5 },  // 中左
+  ];
+
+  // 核心理念卡片的位置（中心）
+  const centerPos = { top: '50%', left: '50%' };
+
   return (
-    <section className="py-40 px-6 md:px-20 bg-paper overflow-hidden">
-      {/* 标题部分：更具杂志排版感 */}
-      <div className="max-w-7xl mx-auto mb-32">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-4xl md:text-6xl font-serif tracking-widest text-ink">
-              植栽 <span className="text-xl md:text-2xl opacity-30 italic ml-4">Specimens</span>
-            </h3>
-            <div className="h-[1px] w-40 bg-moss/40 mt-6"></div>
-          </motion.div>
-          <p className="text-[10px] tracking-zen uppercase opacity-40 max-w-xs leading-loose">
-            Botanical selection curated for the specific micro-climate and aesthetic harmony.
-          </p>
-        </div>
+    <section className="py-20 bg-paper overflow-hidden relative min-h-[1000px] md:min-h-[900px]">
+      {/* 背景纹理：软木板或粗糙墙面感 */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none" 
+           style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cream-paper.png")' }}>
       </div>
-      
-      {/* 非对称网格布局：图片与文字的艺术融合 */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-32 md:gap-y-56 gap-x-10">
-        {plants.map((plant, index) => {
-          // 定义非对称规则：让图片在屏幕中错落分布
-          const gridConfig = [
-            "md:col-span-5 md:col-start-1",              // 第1张：左侧
-            "md:col-span-4 md:col-start-8 md:mt-32",     // 第2张：右侧，通过 mt-32 形成高低差
-            "md:col-span-4 md:col-start-3 md:mt-12",     // 第3张：中左偏移
-            "md:col-span-5 md:col-start-7 md:-mt-16",    // 第4张：右侧，向上收紧空间
-          ];
-          const config = gridConfig[index % gridConfig.length];
 
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: (index % 4) * 0.1 }}
-              className={`${config} group relative`}
-            >
-              {/* 背景装饰：统一色调，增加细腻的质感 */}
-              <div className="absolute -inset-4 bg-stone/5 -z-10 group-hover:bg-moss/5 transition-colors duration-1000 rounded-sm"></div>
-              
-              <div className="relative">
-                {/* 统一比例：全部使用 4:5 比例，解决“有的图片大有的图片小”的视觉突兀感 */}
-                <div className="overflow-hidden bg-stone-100 mb-8 rounded-sm shadow-sm aspect-[4/5]">
-                  <img 
-                    src={plant.image} 
-                    alt={plant.name} 
-                    className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105"
-                  />
-                </div>
-
-                {/* 2. 装饰序号 */}
-                <span className="absolute -top-6 -left-4 font-serif italic text-xs opacity-20 group-hover:opacity-100 group-hover:text-moss transition-all duration-500">
-                  NO. {String(index + 1).padStart(2, '0')}
-                </span>
-
-                {/* 3. 文字排版：错落层次 */}
-                <div className="pt-6 border-t border-ink/5 relative">
-                  <h4 className="text-2xl md:text-3xl font-serif tracking-[0.2em] mb-3 group-hover:text-moss transition-colors duration-500">
-                    {plant.name}
-                  </h4>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[11px] italic font-serif opacity-50 tracking-wider uppercase">
-                      {plant.latin}
-                    </span>
-                    <span className="text-[9px] tracking-widest opacity-30 uppercase mt-4 block border-l border-moss/30 pl-3">
-                      Botanical Category: {plant.type}
-                    </span>
-                  </div>
-
-                  {/* 4. 装饰性的小十字，增加绘图感 */}
-                  <div className="absolute -right-2 -bottom-2 w-6 h-6 opacity-0 group-hover:opacity-40 transition-opacity duration-1000">
-                    <div className="absolute top-1/2 w-full h-[0.5px] bg-ink"></div>
-                    <div className="absolute left-1/2 h-full w-[0.5px] bg-ink"></div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-      
-      {/* 植物图鉴网格 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        {plants.map((plant, index) => (
-          <motion.div 
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.8 }}
-            className="group"
-          >
-            {/* 图片容器：使用 4:5 的艺术比例 */}
-            <div className="aspect-[4/5] overflow-hidden bg-stone-100 mb-6 rounded-sm relative">
-              <img 
-                src={plant.image} 
-                alt={plant.name} 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+      <div className="max-w-7xl mx-auto h-full relative z-10">
+        
+        {/* 1. 桌面端：连接线 SVG 层 (仅在 md 以上显示) */}
+        <svg className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0">
+          {plants.map((_, index) => {
+            const pos = positions[index % positions.length];
+            // 计算简单的连线坐标：从中心卡片连向各个植物
+            // 注意：这里用简单的百分比估算，实际项目中可能需要更精确的计算
+            // 中心点约在 50%, 50%
+            // 目标点根据 pos 解析 (这里简化处理，假设 pos 里的 left/right/top/bottom 转换为大概的 x,y)
+            
+            let x2 = pos.left ? parseFloat(pos.left) : (100 - parseFloat(pos.right));
+            let y2 = pos.top ? parseFloat(pos.top) : (100 - parseFloat(pos.bottom));
+            
+            // 微调连线终点，使其看起来像连在照片的图钉上
+            // 这是一个视觉欺骗，只要线大致指向那个方向即可
+            
+            return (
+              <motion.path
+                key={index}
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.6 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5 + index * 0.2 }}
+                d={`M50 50 L${x2} ${y2}`} 
+                stroke="#8C927D" // 使用苔藓绿作为“线索线”，比红色更优雅
+                strokeWidth="1.5"
+                strokeDasharray="5,5" // 虚线效果，增加图纸感
+                fill="none"
+                vectorEffect="non-scaling-stroke" // 防止缩放时线变粗
               />
-              {/* 悬浮时的遮罩：显示类别 */}
-              <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500" />
-            </div>
+            );
+          })}
+        </svg>
 
-            {/* 文字描述：模仿植物标本标签 */}
-            <div className="space-y-1 px-1">
-              <div className="flex justify-between items-baseline">
-                <h4 className="text-xl font-medium text-stone-800 tracking-wide">{plant.name}</h4>
-                <span className="text-[10px] tracking-widest text-stone-400 uppercase">{plant.type}</span>
-              </div>
-              <p className="text-sm italic text-stone-400 font-serif leading-none">
-                {plant.latin}
-              </p>
+        {/* 2. 核心理念卡片 (中心枢纽) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-64 md:w-80">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            className="bg-[#fffdf5] p-6 shadow-2xl rotate-1 border border-stone-200 relative"
+          >
+            {/* 顶部大头针 */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-800 shadow-sm z-30 border-2 border-white/50"></div>
+            
+            <h3 className="text-3xl font-serif text-center mb-2 text-ink">Plant Palette</h3>
+            <div className="w-full h-[1px] bg-stone-300 mb-3"></div>
+            <p className="font-serif italic text-stone-500 text-center leading-relaxed text-sm">
+              "Every plant is a clue to the local ecosystem. We weave them together to form a resilient narrative."
+            </p>
+            <div className="mt-4 flex justify-center gap-2">
+               <span className="w-2 h-2 rounded-full bg-moss opacity-50"></span>
+               <span className="w-2 h-2 rounded-full bg-stone-400 opacity-50"></span>
+               <span className="w-2 h-2 rounded-full bg-ink opacity-20"></span>
             </div>
           </motion.div>
-        ))}
-      </div>
-      
+        </div>
 
-      {/* 非对称网格布局 */}
-      
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-32 md:gap-y-48 gap-x-10">
-        {plants.map((plant, index) => {
-          // 定义非对称规则
-          const gridConfig = [
-            "md:col-span-4",                  // 第1个：左侧中等
-            "md:col-span-3 md:col-start-6",   // 第2个：中间偏右，较窄
-            "md:col-span-5 md:col-start-8",   // 第3个：右侧较宽
-            "md:col-span-4 md:col-start-2",   // 第4个：左侧偏移
-          ];
-          const config = gridConfig[index % gridConfig.length];
-
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: (index % 4) * 0.1 }}
-              className={`${config} group relative`}
-            >
-              {/* 背景装饰块：模拟标本夹 */}
-              <div className="absolute -inset-4 bg-stone/5 -z-10 group-hover:bg-moss/5 transition-colors duration-700"></div>
-              
-              <div className="relative">
-                {/* 装饰序号 */}
-                <span className="absolute -top-10 -left-4 font-serif italic text-xs opacity-20 group-hover:opacity-100 transition-opacity">
-                  NO. {String(index + 1).padStart(2, '0')}
-                </span>
-
-                {/* 文字排版：错落层次 */}
-                <div className="pt-4 border-t border-ink/10">
-                  <h4 className="text-2xl md:text-3xl font-serif tracking-widest mb-3 group-hover:text-moss transition-colors">
-                    {plant.name}
-                  </h4>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[11px] italic font-serif opacity-50 tracking-wider uppercase">
-                      {plant.latin}
-                    </span>
-                    <span className="text-[9px] tracking-zen opacity-30 uppercase mt-4">
-                      Category: {plant.type}
-                    </span>
+        {/* 3. 散落的照片 (线索点) */}
+        <div className="relative w-full h-full">
+          {plants.map((plant, index) => {
+            const pos = positions[index % positions.length];
+            // 移动端样式 vs 桌面端样式
+            // 移动端：流式堆叠；桌面端：绝对定位
+            
+            return (
+              <motion.div
+                key={index}
+                className="relative md:absolute w-full md:w-64 mx-auto mb-16 md:mb-0"
+                style={{ 
+                  // 移动端忽略 top/left，桌面端应用
+                  top: window.innerWidth >= 768 ? pos.top : 'auto',
+                  bottom: window.innerWidth >= 768 ? pos.bottom : 'auto',
+                  left: window.innerWidth >= 768 ? pos.left : 'auto',
+                  right: window.innerWidth >= 768 ? pos.right : 'auto',
+                }}
+                initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  scale: 1, 
+                  rotate: window.innerWidth >= 768 ? pos.rotate : (index % 2 === 0 ? -2 : 2) 
+                }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                whileHover={{ scale: 1.1, rotate: 0, zIndex: 50, transition: { duration: 0.3 } }}
+              >
+                {/* 拍立得照片卡片 */}
+                <div className="bg-white p-3 pb-10 shadow-[0_4px_20px_rgba(0,0,0,0.15)] group relative transform transition-all hover:shadow-2xl">
+                  
+                  {/* 顶部大头针 (Pin) */}
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
+                    <div className="w-3 h-3 rounded-full bg-stone-800 shadow-sm border border-stone-600"></div>
+                    <div className="w-[1px] h-3 bg-stone-400 mx-auto -mt-1 opacity-50"></div>
                   </div>
-                </div>
 
-                {/* 装饰性的小十字，增加专业感 */}
-                <div className="absolute -right-2 -bottom-2 w-4 h-4 opacity-10 group-hover:opacity-40">
-                  <div className="absolute top-1/2 w-full h-[1px] bg-ink"></div>
-                  <div className="absolute left-1/2 h-full w-[1px] bg-ink"></div>
+                  {/* 图片 */}
+                  <div className="aspect-[4/5] bg-stone-100 overflow-hidden relative">
+                    <img 
+                      src={plant.image} 
+                      alt={plant.name} 
+                      className="w-full h-full object-cover filter contrast-[0.95] brightness-[1.05] sepia-[0.1]" 
+                    />
+                    {/* 胶带效果 (Tape) - 随机出现在边角 */}
+                    {index % 2 === 0 && (
+                      <div className="absolute -top-3 -right-3 w-8 h-8 bg-white/30 backdrop-blur-sm rotate-45 shadow-sm border border-white/20"></div>
+                    )}
+                  </div>
+
+                  {/* 手写注解 */}
+                  <div className="absolute bottom-2 left-0 w-full text-center px-2">
+                    <h4 className="font-serif text-lg text-ink/90">{plant.name}</h4>
+                    <p className="text-[9px] uppercase tracking-widest text-stone-400">{plant.latin}</p>
+                  </div>
+                  
+                  {/* 附加的小便签 (Note) - 偶尔出现 */}
+                  {index % 3 === 0 && (
+                    <div className="absolute -bottom-8 -right-4 bg-[#fff9c4] text-ink p-2 w-24 shadow-md rotate-3 text-[10px] font-serif leading-tight border-t border-[#f0f0f0]">
+                      Excellent drought resistance.
+                    </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
+              </motion.div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );

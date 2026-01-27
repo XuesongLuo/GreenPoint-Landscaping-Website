@@ -7,10 +7,10 @@
 /* V4 主题配置：直接在这里定义你的设计系统 */
 @theme {
   /* 颜色定义 (会自动生成 bg-paper, text-paper, border-paper 等) */
-  --color-paper: #F2EFEA;
-  --color-ink: #1A1A1A;
-  --color-moss: #8C927D;
-  --color-stone: #D1CDC4;
+  --color-paper: #F2EFEA;   /* 宣纸白 */
+  --color-ink: #1A1A1A;     /* 墨色   */
+  --color-moss: #8C927D;    /* 苔藓绿 */
+  --color-stone: #D1CDC4;   /* 石材灰 */
 
   /* 新增的意境色 */
   --color-zen-white: #F9F8F6;  /* 映射为 bg-zen-white, text-zen-white 温暖的纸质感白色 */
