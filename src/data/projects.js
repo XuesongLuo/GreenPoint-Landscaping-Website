@@ -54,9 +54,9 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-03.jpg",
     gallery: ["/assets/images/p3-1.jpg", "/assets/images/p3-3.jpg"],
     plants: [
-      { name: "加州活栎", latin: "Quercus agrifolia", type: "原生乔木", image: "/assets/images/plants/cherry-blossom.jpg" },
-      { name: "薰衣草", latin: "Lavandula", type: "地被", image: "/assets/images/plants/lavender.jpg" },
-      { name: "迷迭香", latin: "Rosmarinus officinalis", type: "灌木", image: "/assets/images/plants/cherry-blossom.jpg" }
+      { name: "加州活栎", latin: "Quercus agrifolia", type: "原生乔木", image: "/assets/images/plants/lavender.png" },
+      { name: "薰衣草", latin: "Lavandula", type: "地被", image: "/assets/images/plants/lavender.png" },
+      { name: "迷迭香", latin: "Rosmarinus officinalis", type: "灌木", image: "/assets/images/plants/lavender.png" }
     ]
   }
 ];
