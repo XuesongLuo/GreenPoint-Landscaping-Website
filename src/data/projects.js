@@ -1,6 +1,6 @@
 // src/data/projects.js
 
-export const projectsData = [
+export const projects = [
   {
     id: 1,
     slug: "cloud-valley",
@@ -15,7 +15,7 @@ export const projectsData = [
     sketchImage: "/assets/images/sketch-01.jpg",
     gallery: ["/assets/images/p1-1.jpg", "/assets/images/p1-2.jpg"],
     plants: [
-      { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/lavender.png" },
+      { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/lavender.png" }, // 记得替换为实际植物图
       { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草", image: "/assets/images/plants/lavender.png" }
     ]
   },

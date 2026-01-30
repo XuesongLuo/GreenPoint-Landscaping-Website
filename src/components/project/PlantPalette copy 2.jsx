@@ -1,99 +1,190 @@
-// src/components/project/PlantPalette.jsx
-// src/components/project/PlantPalette.jsx
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-const PlantPalette = ({ plants }) => {
+const PlantPalette = ({ plants, projectId = 1 }) => {
   if (!plants || plants.length === 0) return null;
 
-  return (
-    <section className="py-32 px-6 bg-paper overflow-hidden relative">
-      {/* 背景纹理：可选，增加一点桌面质感 */}
-      <div className="absolute inset-0 bg-[#F2EFEA] opacity-50 pointer-events-none"></div>
+  // --- 1. 定义多套“避让中心”的布局方案 ---
+  
+  // 方案 A: 经典散落 (The Scatter) - 四角与边缘分散，绝对不碰中心
+  const layoutScatter = [
+    { top: '5%', left: '5%', rotate: -6 },      // 左上角
+    { top: '10%', right: '5%', rotate: 5 },      // 右上角
+    { top: '40%', left: '15%', rotate: 4 },      // 左边缘 (上移，避开中心)
+    { bottom: '45%', right: '10%', rotate: -3 }, // 右边缘 (下移，避开中心)
+    { bottom: '5%', left: '10%', rotate: -5 },  // 左下角
+    { bottom: '10%', right: '15%', rotate: 3 },  // 右下角
+  ];
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* 标题部分 */}
-        <div className="text-center mb-24">
+  // 方案 B: 广角轨道 (The Orbit) - 贴边大椭圆
+  const layoutOrbit = [
+    { top: '1%', left: '35%', rotate: -2 },     // 正上方 (极靠边)
+    { top: '15%', right: '5%', rotate: 10 },    // 右上极点
+    { bottom: '15%', right: '5%', rotate: -5 }, // 右下极点
+    { bottom: '2%', right: '35%', rotate: 3 },  // 正下方 (极靠边)
+    { bottom: '15%', left: '5%', rotate: -10 }, // 左下极点
+    { top: '15%', left: '5%', rotate: 5 },      // 左上极点
+  ];
+
+  // 方案 C: 环绕流线 (The Surround) - 从左上流向右下，但在外围游走
+  const layoutFlow = [
+    { top: '5%', left: '2%', rotate: -8 },      // 起点：左上极限
+    { top: '5%', left: '45%', rotate: -3 },     // 顶部中继
+    { top: '20%', right: '2%', rotate: 8 },     // 右上转折
+    { bottom: '20%', right: '2%', rotate: -5 }, // 右下转折
+    { bottom: '5%', right: '45%', rotate: 4 },  // 底部中继
+    { bottom: '5%', left: '2%', rotate: -6 },   // 终点：左下极限
+  ];
+
+  // --- 2. 布局选择器 ---
+  const currentLayout = useMemo(() => {
+    const layouts = [layoutScatter, layoutOrbit, layoutFlow];
+    // 确保有 projectId，否则默认为 1
+    const safeId = projectId || 1;
+    const index = safeId % layouts.length;
+    return layouts[index];
+  }, [projectId]);
+
+  // 定义图钉颜色库
+  const pinColors = [
+    { name: 'Red',    light: '#ff6b6b', main: '#e74c3c', dark: '#c0392b' },
+    { name: 'Blue',   light: '#54a0ff', main: '#2e86de', dark: '#0984e3' },
+    { name: 'Yellow', light: '#feca57', main: '#ff9f43', dark: '#e67e22' },
+    { name: 'Green',  light: '#55efc4', main: '#00b894', dark: '#006266' },
+    { name: 'Purple', light: '#a29bfe', main: '#6c5ce7', dark: '#4834d4' },
+  ];
+
+  return (
+    <section className="relative w-full bg-paper min-h-screen py-20 overflow-hidden">
+      {/* 背景纹理 */}
+      <div 
+        className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" 
+        /*style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cardboard-flat.png")' }} */
+        style={{ backgroundImage: 'url("/assets/images/background/cardboard-flat.png")' }} 
+      ></div>
+
+      <div className="max-w-7xl mx-auto relative z-10 min-h-[800px] md:h-[900px]">
+        
+        {/* 3. 动态连线层 (SVG) */}
+        <svg className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0">
+          {plants.map((_, index) => {
+            const pos = currentLayout[index % currentLayout.length];
+            
+            let x2 = pos.left ? parseFloat(pos.left) : (100 - parseFloat(pos.right));
+            let y2 = pos.top ? parseFloat(pos.top) : (100 - parseFloat(pos.bottom));
+            if (pos.bottom) y2 = 100 - parseFloat(pos.bottom);
+            
+            // 计算连线起点：永远是屏幕中心 (50%, 50%)
+            // 计算连线终点：植物卡片的位置
+            
+            return (
+              <motion.path
+                key={index}
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.3 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5 + index * 0.2 }}
+                d={`M50 50 L${x2} ${y2}`} 
+                stroke="#7f8c8d" 
+                strokeWidth="1"
+                strokeDasharray="3,3"
+                fill="none"
+              />
+            );
+          })}
+        </svg>
+
+        {/* --- 核心理念卡片 (绝对居中) --- */}
+        {/* 增加了 z-index 确保它永远在最上层，不会被偶尔飘过的元素遮挡 */}
+        <div className="relative md:absolute top-0 md:top-1/2 left-0 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-30 w-full md:w-80 mb-20 md:mb-0 px-6 md:px-0 flex justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
+            // 增加了 hover 效果，让核心卡片也能互动
+            whileHover={{ scale: 1.02 }}
+            className="bg-[#fcfbf9] p-6 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] rotate-1 border border-stone-100 relative max-w-sm"
           >
-            <span className="text-xs tracking-[0.3em] uppercase text-stone-400 mb-4 block">
-              The Living Palette
-            </span>
-            <h3 className="text-4xl md:text-5xl font-serif text-ink tracking-wide">
-              植物情绪板
-            </h3>
-            <div className="w-12 h-[1px] bg-moss/50 mx-auto mt-6"></div>
+            {/* 中心大红色主钉 */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-5 h-5 z-30 drop-shadow-md">
+                <div className="w-full h-full rounded-full relative overflow-hidden" 
+                     style={{ background: 'radial-gradient(circle at 35% 35%, #ff7675, #d63031)' }}>
+                     <div className="absolute top-1 left-1 w-2 h-1.5 bg-white rounded-full opacity-60 blur-[1px]"></div>
+                     <div className="absolute bottom-0 right-0 w-full h-full bg-black opacity-20" style={{ background: 'radial-gradient(circle at 80% 80%, rgba(0,0,0,0.4), transparent 60%)' }}></div>
+                </div>
+            </div>
+            
+            <h3 className="text-2xl font-serif text-center mb-2 text-ink">Ecosystem Palette</h3>
+            <div className="w-full h-[1px] bg-stone-200 mb-3"></div>
+            <p className="font-serif italic text-stone-500 text-center leading-relaxed text-sm">
+              "Connecting native species to create a self-sustaining landscape narrative."
+            </p>
           </motion.div>
         </div>
 
-        {/* 散落照片布局 */}
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 py-10">
+        {/* --- 植物照片卡片 (分布在四周) --- */}
+        <div className="relative w-full h-full flex flex-col md:block gap-12 px-6">
           {plants.map((plant, index) => {
-            // 预设一组“随机”角度，模拟自然散落
-            const rotations = [-6, 3, -4, 5, -8, 2];
-            const rotation = rotations[index % rotations.length];
-            
-            // 预设一组垂直偏移，避免排列太整齐
-            const yOffsets = [0, 40, -20, 30, -10, 50];
-            const yOffset = yOffsets[index % yOffsets.length];
+            const pos = currentLayout[index % currentLayout.length];
+            const pinColor = pinColors[index % pinColors.length];
 
             return (
               <motion.div
                 key={index}
-                // 初始状态：散落、透明
-                initial={{ opacity: 0, y: 100, rotate: rotation, scale: 0.9 }}
-                // 进场动画：带着旋转落下
+                className="relative md:absolute w-full max-w-xs mx-auto md:w-60"
+                style={{ 
+                  top: window.innerWidth >= 768 ? pos.top : 'auto',
+                  bottom: window.innerWidth >= 768 ? pos.bottom : 'auto',
+                  left: window.innerWidth >= 768 ? pos.left : 'auto',
+                  right: window.innerWidth >= 768 ? pos.right : 'auto',
+                }}
+                initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
                 whileInView={{ 
                   opacity: 1, 
-                  y: yOffset, // 应用垂直偏移
-                  rotate: rotation, 
-                  scale: 1 
+                  scale: 1, 
+                  rotate: window.innerWidth >= 768 ? pos.rotate : (index % 2 === 0 ? -2 : 2) 
                 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 50,
-                  damping: 15,
-                  delay: index * 0.1 
-                }}
-                // 悬停交互：拿起照片
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ 
-                  scale: 1.15, 
+                  scale: 1.05, 
                   rotate: 0, 
-                  zIndex: 50,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
+                  zIndex: 40, // 略高于其他卡片，但低于核心卡片(z-30)? 不，交互时应该最高
+                  transition: { type: "spring", stiffness: 300 } 
                 }}
-                className="relative group cursor-pointer"
               >
-                {/* 拍立得相纸容器 */}
-                <div className="bg-white p-3 pb-8 md:p-4 md:pb-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] group-hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.35)] transition-shadow duration-300 w-64 md:w-72">
+                <div className="bg-white p-3 pb-2 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-2xl transition-shadow duration-300 flex flex-col relative">
                   
-                  {/* 照片区域 */}
-                  <div className="aspect-[4/5] overflow-hidden bg-stone-100 relative grayscale-[10%] group-hover:grayscale-0 transition-all duration-500">
+                  {/* 多彩 3D 图钉 */}
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 w-4 h-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+                     <div className="w-full h-full rounded-full relative"
+                          style={{ 
+                            background: `radial-gradient(circle at 30% 30%, ${pinColor.light}, ${pinColor.main}, ${pinColor.dark})`
+                          }}>
+                        <div className="absolute top-[15%] left-[15%] w-[30%] h-[20%] bg-white rounded-full opacity-70 blur-[0.5px]"></div>
+                        <div className="absolute bottom-[10%] right-[10%] w-[40%] h-[40%] bg-white opacity-10 blur-[1px] rounded-full"></div>
+                     </div>
+                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black opacity-20 blur-[1px] rounded-full -z-10"></div>
+                  </div>
+
+                  {/* 图片区域 */}
+                  <div className="aspect-[4/5] bg-stone-100 overflow-hidden mb-4 relative grayscale-[10%] hover:grayscale-0 transition-all duration-500 group">
                     <img 
                       src={plant.image} 
                       alt={plant.name} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover" 
                     />
-                    {/* 纹理遮罩（可选）：模拟老照片质感 */}
-                    <div className="absolute inset-0 bg-stone-500/5 mix-blend-multiply pointer-events-none"></div>
+                    {/* 胶带效果 */}
+                    {index % 2 !== 0 && (
+                       <div className="absolute -top-3 -right-3 w-8 h-8 bg-white/40 backdrop-blur-sm rotate-45 border border-white/20 shadow-sm opacity-80"></div>
+                    )}
                   </div>
 
-                  {/* 手写风格文字 */}
-                  <div className="mt-4 md:mt-6 text-center px-2">
-                    <h4 className="text-xl font-serif text-ink/90 mb-1 group-hover:text-moss transition-colors">
-                      {plant.name}
-                    </h4>
-                    <p className="text-[10px] tracking-widest uppercase text-stone-400 font-sans border-t border-stone-100 pt-2 inline-block">
-                      {plant.latin}
-                    </p>
+                  {/* 底部文字 */}
+                  <div className="pt-2 pb-4 text-center border-t border-stone-100">
+                    <h4 className="font-serif text-lg text-ink/90 leading-none mb-1">{plant.name}</h4>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-sans">{plant.latin}</p>
                   </div>
-
-                  {/* 装饰：模拟胶带或回形针 (纯CSS绘制) */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-12 bg-white/20 backdrop-blur-[1px] border border-white/40 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm"></div>
                 </div>
               </motion.div>
             );

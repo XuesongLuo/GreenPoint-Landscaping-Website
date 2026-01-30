@@ -7,28 +7,28 @@ const materials = [
     title: "太湖石",
     subtitle: "Stone",
     desc: "瘦漏透皱，以石观心",
-    img: "/assets/images/mat-stone.jpg",
+    img: "https://loremflickr.com/550/750/stone",
   },
   {
     id: 2,
     title: "青苔",
     subtitle: "Moss",
     desc: "时间的皮肤，在此生长",
-    img: "/assets/images/mat-moss.jpg",
+    img: "https://loremflickr.com/550/750/moss",
   },
   {
     id: 3,
     title: "老杉木",
     subtitle: "Wood",
     desc: "取自古建，枯木逢春",
-    img: "/assets/images/mat-wood.jpg",
+    img: "https://loremflickr.com/550/750/wood",
   },
   {
     id: 4,
     title: "黑山砂",
     subtitle: "Gravel",
     desc: "黑川如水，枯山冥想",
-    img: "/assets/images/mat-sand.jpg",
+    img: "https://loremflickr.com/550/750/rock",
   },
 ];
 
