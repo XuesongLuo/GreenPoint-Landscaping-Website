@@ -3,12 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { projectsData } from '../../data/projects'; // 引入真实数据
 
-// 模拟数据
-const projects = [
-  { id: 1, title: "云谷山房", coverImage: "/assets/images/p1.jpg", type: "Resort" },
-  { id: 2, title: "松间茶室", coverImage: "/assets/images/p2.jpg", type: "Private" },
-  // ...更多数据
-];
 
 const ProjectGrid = ({ limit }) => {
   // 如果有 limit，则截取前几个项目；否则显示全部

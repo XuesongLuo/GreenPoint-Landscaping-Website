@@ -18,7 +18,7 @@ const PlantPalette = ({ plants, projectId = 1 }) => {
 
   // 方案 B: 广角轨道 (The Orbit) - 贴边大椭圆
   const layoutOrbit = [
-    { top: '2%', left: '35%', rotate: -2 },     // 正上方 (极靠边)
+    { top: '1%', left: '35%', rotate: -2 },     // 正上方 (极靠边)
     { top: '15%', right: '5%', rotate: 10 },    // 右上极点
     { bottom: '15%', right: '5%', rotate: -5 }, // 右下极点
     { bottom: '2%', right: '35%', rotate: 3 },  // 正下方 (极靠边)
@@ -59,7 +59,8 @@ const PlantPalette = ({ plants, projectId = 1 }) => {
       {/* 背景纹理 */}
       <div 
         className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" 
-        style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cardboard-flat.png")' }}
+        /*style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cardboard-flat.png")' }} */
+        style={{ backgroundImage: 'url("/assets/images/background/cardboard-flat.png")' }} 
       ></div>
 
       <div className="max-w-7xl mx-auto relative z-10 min-h-[800px] md:h-[900px]">
@@ -149,7 +150,6 @@ const PlantPalette = ({ plants, projectId = 1 }) => {
                   scale: 1.05, 
                   rotate: 0, 
                   zIndex: 40, // 略高于其他卡片，但低于核心卡片(z-30)? 不，交互时应该最高
-                  zIndex: 50,
                   transition: { type: "spring", stiffness: 300 } 
                 }}
               >

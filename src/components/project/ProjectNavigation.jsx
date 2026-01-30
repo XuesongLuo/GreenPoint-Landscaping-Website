@@ -1,7 +1,6 @@
 // src/components/project/ProjectNavigation.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { projectsData } from '../../data/projects';
 
 const ProjectNavigation = ({ currentId }) => {

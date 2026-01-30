@@ -1,129 +1,119 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-// 模拟材料数据
 const materials = [
   {
     id: 1,
     title: "太湖石",
-    subtitle: "Stone / 瘦漏透皱",
-    desc: "选用太湖原生水蚀石，保留千年的自然孔洞与纹理，作为庭院视觉焦点。",
-    img: "/assets/images/mat-stone.jpg", // 请替换为实际图片路径
-    color: "#5c5c5c"
+    subtitle: "Stone",
+    desc: "瘦漏透皱，以石观心",
+    img: "/assets/images/mat-stone.jpg",
   },
   {
     id: 2,
     title: "青苔",
-    subtitle: "Moss / 时间的皮肤",
-    desc: "不仅是植物，更是时间的度量。我们在阴面转角处培育原生苔藓。",
+    subtitle: "Moss",
+    desc: "时间的皮肤，在此生长",
     img: "/assets/images/mat-moss.jpg",
-    color: "#5c6b47" // 苔藓绿
   },
   {
     id: 3,
     title: "老杉木",
-    subtitle: "Wood / 枯木逢春",
-    desc: "回收自明清古建筑的拆房老料，通过打磨重现木纹的温润质感。",
+    subtitle: "Wood",
+    desc: "取自古建，枯木逢春",
     img: "/assets/images/mat-wood.jpg",
-    color: "#8a7b6e"
   },
   {
     id: 4,
     title: "黑山砂",
-    subtitle: "Gravel / 枯山水",
-    desc: "极细的黑色玄武岩颗粒，用于模拟水的流动，营造枯山水的冥想空间。",
+    subtitle: "Gravel",
+    desc: "黑川如水，枯山冥想",
     img: "/assets/images/mat-sand.jpg",
-    color: "#2c2c2c"
   },
 ];
 
 const MaterialDetail = () => {
   const targetRef = useRef(null);
   
-  // 监听该组件在视口中的滚动进度
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  // 核心逻辑：将垂直滚动进度 (0 -> 1) 映射为水平位移 (0% -> -X%)
-  // 根据卡片数量调整这里的 -75%，确保最后一张卡片能完整划入
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  // 纯粹的水平移动：从 0% 到 -60%
+  // 配合 sticky，视觉效果就是：人不动，画卷向左徐徐展开
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
   return (
-    // 1. 外层容器：高度必须足够高 (300vh)，以创造足够的滚动行程
-    <section ref={targetRef} className="relative h-[300vh] bg-ink">
+    // 外层容器：高度决定了滚动的时长（300vh = 3倍屏幕高度的滚动距离）
+    <section ref={targetRef} className="relative h-[300vh] bg-paper">
       
-      {/* 2. 粘性容器：始终固定在视口顶部，直到外层容器滚完 */}
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      {/* Sticky 容器：这就是“锁定”的关键
+          h-screen 占满全屏，sticky top-0 把它钉在视口顶部
+      */}
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        {/* 3. 运动轨道：根据滚动进度向左平移 */}
-        <motion.div style={{ x }} className="flex gap-20 px-20 md:px-40">
+        {/* 【装饰】画卷的“天头”和“地脚”：模拟装裱的丝绸边框 */}
+        <div className="absolute top-0 left-0 right-0 h-12 bg-ink/5 border-b border-ink/10 z-20" />
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-ink/5 border-t border-ink/10 z-20" />
+
+        {/* 移动轨道 */}
+        <motion.div style={{ x }} className="flex items-center pl-20 md:pl-40 gap-20 md:gap-32">
           
-          {/* 标题卡片：作为画卷的卷首 */}
-          <div className="flex flex-col justify-center min-w-[300px] md:min-w-[400px] text-[#f2efea]">
-            <div className="flex items-center gap-4 mb-8">
-              <span className="h-[1px] w-12 bg-white/30"></span>
-              <span className="text-xs uppercase tracking-[0.3em] opacity-60">Craftsmanship</span>
-            </div>
-            <h2 className="text-5xl md:text-7xl font-serif tracking-widest leading-tight mb-6">
-              造物<br />
-              <span className="italic opacity-50 text-4xl">与</span><br />
-              微观
+          {/* 卷首：题字 */}
+          <div className="flex-shrink-0 w-[300px] md:w-[400px] flex flex-col justify-center border-r border-ink/10 pr-12 h-[60vh]">
+            <span className="writing-vertical-rl text-xs tracking-[0.4em] text-moss opacity-60 h-24 block mb-8">
+              Microcosm
+            </span>
+            <h2 className="text-6xl md:text-8xl font-serif tracking-widest text-ink/80 mb-8">
+              微<br/>观
             </h2>
-            <p className="text-sm font-light tracking-widest opacity-60 leading-loose max-w-xs">
-              上帝存在于细节之中。我们关注每一块石头的摆放，每一株苔藓的呼吸。
+            <p className="text-sm font-light tracking-widest leading-loose text-ink/60 max-w-[200px]">
+              一石一世界<br/>
+              一叶一菩提<br/>
+              于细微处见大千
             </p>
           </div>
 
-          {/* 材料卡片列表 */}
+          {/* 画芯：内容卡片 */}
           {materials.map((item) => (
-            <MaterialCard key={item.id} item={item} />
+            <div key={item.id} className="relative group flex-shrink-0 w-[280px] md:w-[360px] flex flex-col items-center">
+              
+              {/* 月亮门设计：
+                  为了更有“画”的感觉，我们给它加一个双重边框
+              */}
+              <div className="relative p-2 border border-ink/10 rounded-t-[180px] rounded-b-sm">
+                <div className="overflow-hidden rounded-t-[170px] rounded-b-sm aspect-[3/5] relative bg-stone-200">
+                  <motion.img 
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 1 }}
+                    src={item.img} 
+                    alt={item.title}
+                    className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 transition-all duration-700"
+                  />
+                  {/* 编号：像印章一样盖在角落 */}
+                  <div className="absolute top-6 right-6 w-8 h-8 border border-white/30 rounded-full flex items-center justify-center text-white/50 text-xs font-serif backdrop-blur-sm">
+                    {item.id}
+                  </div>
+                </div>
+              </div>
+
+              {/* 题跋：竖排文字，更具古韵 */}
+              <div className="mt-8 text-center">
+                 <h3 className="text-2xl font-serif mb-2 text-ink">{item.title}</h3>
+                 <span className="text-[10px] uppercase tracking-widest text-moss opacity-70 block mb-3">{item.subtitle}</span>
+                 <p className="text-xs text-ink/50 writing-vertical-rl h-24 mx-auto tracking-widest border-l border-ink/10 pl-2">
+                   {item.desc}
+                 </p>
+              </div>
+            </div>
           ))}
 
-          {/* 卷尾留白：确保最后一张卡片后有空间 */}
-          <div className="min-w-[200px]" />
+          {/* 卷尾：留白 */}
+          <div className="w-[50vw]" />
           
         </motion.div>
       </div>
     </section>
-  );
-};
-
-// 子组件：单张材料卡片
-const MaterialCard = ({ item }) => {
-  return (
-    <div className="group relative w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-center">
-      {/* 图片区域 */}
-      <div className="relative overflow-hidden aspect-[3/4] bg-neutral-800 border border-white/5">
-        <motion.img 
-          src={item.img} 
-          alt={item.title}
-          className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110"
-        />
-        
-        {/* 装饰：图片上的色块遮罩 */}
-        <div 
-          className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent opacity-60"
-        ></div>
-      </div>
-
-      {/* 文字区域 */}
-      <div className="mt-8 text-[#f2efea] relative">
-        {/* 序号 */}
-        <span className="absolute -top-16 -left-4 text-[100px] font-serif opacity-5 font-bold select-none text-white">
-          0{item.id}
-        </span>
-        
-        <h3 className="text-2xl font-serif tracking-widest mb-2 flex items-baseline gap-4">
-          {item.title}
-          <span className="text-xs font-sans uppercase tracking-widest opacity-40 text-stone">{item.subtitle}</span>
-        </h3>
-        <div className="h-[1px] w-full bg-white/10 my-4 origin-left transition-transform duration-500 group-hover:scale-x-100 scale-x-50"></div>
-        <p className="text-sm font-light leading-relaxed opacity-60 text-justify">
-          {item.desc}
-        </p>
-      </div>
-    </div>
   );
 };
 

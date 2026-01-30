@@ -18,7 +18,7 @@ const Home = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="bg-paper min-h-screen text-ink overflow-x-hidden" // 使用我们在 tailwind 配好的颜色
+      className="bg-paper min-h-screen text-ink" // 使用我们在 tailwind 配好的颜色
     >
       <Navbar />
 
