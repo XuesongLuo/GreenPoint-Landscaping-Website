@@ -1,6 +1,7 @@
 // src/pages/Studio.jsx
 import { motion } from 'framer-motion';
 import Navbar from '../components/common/Navbar';
+import Philosophy from '../components/home/Philosophy';
 import Footer from '../components/common/Footer';
 
 const Studio = () => {
@@ -19,16 +20,16 @@ const Studio = () => {
           
           {/* 左侧：哲学说明 (Philosophy) */}
           <section className="space-y-12">
-            <div>
-              <h2 className="text-stone text-xs tracking-zen uppercase mb-4">Design Philosophy</h2>
-              <h1 className="text-4xl font-serif text-ink leading-relaxed">
-                以东方之笔，<br/>绘加州之境。
-              </h1>
-              <p className="mt-8 text-moss leading-loose font-light">
-                在 GreenPoint，我们相信园林不是对自然的征服，而是对大地的“留白”。
-                我们融合了京都禅寺的静谧尺度与加州海岸的明亮自由，利用当地抗旱植物营造出既符合现代生活方式，又具有深厚精神内核的景观空间。
-              </p>
-            </div>
+            <Philosophy 
+              variant="simple" 
+              title="Design Philosophy" 
+              quote="以东方之笔，绘加州之境。"
+            />
+            <p className="mt-8 text-moss leading-loose font-light">
+              在 GreenPoint，我们相信园林不是对自然的征服，而是对大地的“留白”。
+              我们融合了京都禅寺的静谧尺度与加州海岸的明亮自由，利用当地抗旱植物营造出既符合现代生活方式，又具有深厚精神内核的景观空间。
+            </p>
+            {/*</div> */}
             
             <div className="aspect-[3/4] bg-stone/20 overflow-hidden relative">
                <img 
