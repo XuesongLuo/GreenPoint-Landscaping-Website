@@ -7,6 +7,7 @@ import Lenis from '@studio-freight/lenis'; // 引入 Lenis
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
+import Studio from './pages/Studio';
 
 function App() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/studio" element={<Studio />} />
         </Routes>
       </AnimatePresence>
     </>

@@ -14,6 +14,12 @@ export const projects = [
     coverImage: "/assets/images/p1.jpg", 
     sketchImage: "/assets/images/sketch-01.jpg",
     gallery: ["/assets/images/p1-1.jpg", "/assets/images/p1-2.jpg"],
+    materials: [
+      { name: "Local Quarry Stone", cnName: "当地山石", type: "Hardscape" },
+      { name: "Low-Iron Glass", cnName: "超白玻璃", type: "Structure" },
+      { name: "Weathered Cedar", cnName: "风化杉木", type: "Woodwork" },
+      { name: "Gravel", cnName: "灰砾石", type: "Ground" },
+    ],
     plants: [
       { name: "早樱", latin: "Cerasus sp.", type: "乔木", image: "/assets/images/plants/lavender.png" }, // 记得替换为实际植物图
       { name: "细叶芒", latin: "Miscanthus sinensis", type: "观赏草", image: "/assets/images/plants/lavender.png" }
@@ -33,6 +39,12 @@ export const projects = [
     coverImage: "/assets/images/p2.jpg", 
     sketchImage: "/assets/images/sketch-02.jpg",
     gallery: ["/assets/images/p2-1.jpg", "/assets/images/p2-2.jpg"],
+    materials: [
+      { name: "Local Quarry Stone", cnName: "当地山石", type: "Hardscape" },
+      { name: "Low-Iron Glass", cnName: "超白玻璃", type: "Structure" },
+      { name: "Weathered Cedar", cnName: "风化杉木", type: "Woodwork" },
+      { name: "Gravel", cnName: "灰砾石", type: "Ground" },
+    ],
     plants: [
       { name: "百年油橄榄", latin: "Olea europaea", type: "核心主景", image: "/assets/images/plants/lavender.png" },
       { name: "翡翠盘龙舌兰", latin: "Agave attenuata", type: "雕塑植物", image: "/assets/images/plants/lavender.png" },
@@ -53,6 +65,12 @@ export const projects = [
     coverImage: "/assets/images/p3.jpg", 
     sketchImage: "/assets/images/sketch-03.jpg",
     gallery: ["/assets/images/p3-1.jpg", "/assets/images/p3-3.jpg"],
+    materials: [
+      { name: "Local Quarry Stone", cnName: "当地山石", type: "Hardscape" },
+      { name: "Low-Iron Glass", cnName: "超白玻璃", type: "Structure" },
+      { name: "Weathered Cedar", cnName: "风化杉木", type: "Woodwork" },
+      { name: "Gravel", cnName: "灰砾石", type: "Ground" },
+    ],
     plants: [
       { name: "加州活栎", latin: "Quercus agrifolia", type: "原生乔木", image: "/assets/images/plants/lavender.png" },
       { name: "薰衣草", latin: "Lavandula", type: "地被", image: "/assets/images/plants/lavender.png" },
@@ -60,3 +78,6 @@ export const projects = [
     ]
   }
 ];
+
+
+export const projectsData = projects;

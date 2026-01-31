@@ -34,8 +34,7 @@ const Footer = () => {
             <ul className="space-y-4 font-serif text-lg">
               <li><FooterLink to="/">Home / 首页</FooterLink></li>
               <li><FooterLink to="/projects">Work / 作品</FooterLink></li>
-              <li><FooterLink to="/philosophy">Studio / 营造</FooterLink></li>
-              <li><FooterLink to="/contact">Contact / 联络</FooterLink></li>
+              <li><FooterLink to="/studio">Studio / 工作室</FooterLink></li>
             </ul>
           </div>
 
