@@ -1,23 +1,22 @@
 // src/components/project/ProjectNavigation.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { projectsData } from '../../data/projects';
+//import { projectsData } from '../../data/projects';
 
-const ProjectNavigation = ({ currentId }) => {
-  // 获取当前索引
-  const currentIndex = projectsData.findIndex(p => p.id === currentId);
-  const total = projectsData.length;
-
-  // 计算上一个和下一个（循环逻辑：第一个的前面是最后一个，最后一个的后面是第一个）
-  const prevProject = projectsData[(currentIndex - 1 + total) % total];
-  const nextProject = projectsData[(currentIndex + 1) % total];
+/**
+ * 现在的 ProjectNavigation 是一个纯展示组件 (Dumb Component)
+ * 它不需要知道全部项目数据，只需要知道“上一篇”和“下一篇”是谁。
+ */
+const ProjectNavigation = ({ prevProject, nextProject }) => {
+  // 如果没有数据，直接不渲染
+  if (!prevProject || !nextProject) return null;
 
   return (
     <section className="mt-40 border-t border-ink/5 px-6 md:px-20 py-32">
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-10 md:gap-20">
         
         {/* 上一个项目 */}
-        <Link to={`/project/${prevProject.id}`} className="group text-left">
+        <Link to={`/projects/${prevProject.id}`} className="group text-left">
           <span className="text-[10px] uppercase tracking-zen text-moss mb-4 block opacity-60 group-hover:opacity-100 transition-opacity">
             &larr; Previous / 上篇
           </span>
@@ -27,7 +26,7 @@ const ProjectNavigation = ({ currentId }) => {
         </Link>
 
         {/* 下一个项目 */}
-        <Link to={`/project/${nextProject.id}`} className="group text-right">
+        <Link to={`/projects/${nextProject.id}`} className="group text-right">
           <span className="text-[10px] uppercase tracking-zen text-moss mb-4 block opacity-60 group-hover:opacity-100 transition-opacity">
             Next / 下篇 &rarr;
           </span>
@@ -39,10 +38,8 @@ const ProjectNavigation = ({ currentId }) => {
       </div>
       
       {/* 装饰性细节：页码感 */}
-      <div className="mt-20 flex justify-center items-center gap-4 italic font-serif text-sm opacity-20">
-        <span>{String(currentIndex + 1).padStart(2, '0')}</span>
-        <div className="w-12 h-[1px] bg-ink"></div>
-        <span>{String(total).padStart(2, '0')}</span>
+      <div className="mt-20 flex justify-center items-center opacity-20">
+         <div className="w-12 h-[1px] bg-ink"></div>
       </div>
     </section>
   );
