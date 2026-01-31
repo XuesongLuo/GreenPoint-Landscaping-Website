@@ -1,5 +1,5 @@
 // src/pages/Projects.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 // 复用组件

@@ -70,7 +70,7 @@ const MaterialDetail = () => {
 
   // 修正逻辑：
   // 1. 从 -88% 改为 -70%：确保最后一张卡片刚好停在屏幕内，而不是跑出屏幕。
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
   return (
     // 修正高度：从 400vh 减为 300vh，让滚动节奏更快，减少等待感
