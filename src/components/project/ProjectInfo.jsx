@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 
 const ProjectInfo = ({ project }) => {
+
   return (
     <section className="py-24 px-6 md:px-40 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row gap-16 md:gap-32">

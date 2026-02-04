@@ -1,16 +1,42 @@
 // src/pages/Studio.jsx
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { pageTransition } from '../animations/transitions';
+import { useSiteConfig } from '../hooks/useSiteConfig';
 import Navbar from '../components/common/Navbar';
 import Philosophy from '../components/home/Philosophy';
 import Footer from '../components/common/Footer';
 
 const Studio = () => {
+  // 1. 调用 Hook 获取后端数据
+  const { config, loading } = useSiteConfig();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
+  // 2. 加载状态：显示极简的加载文字
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F5F5F0] flex items-center justify-center">
+        <span className="text-stone-400 font-serif tracking-widest animate-pulse">
+          Loading Philosophy...
+        </span>
+      </div>
+    );
+  }
+
+  // 3. 安全检查：如果数据没取到，不渲染报错，而是返回空
+  if (!config || !config.studio) return null;
+
+  // 4. 解构数据，让代码更干净
+  const { philosophy, contact } = config.studio;
+  console.log(contact);
   return (
     <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="bg-paper min-h-screen flex flex-col"
+      {...pageTransition}
+      className="bg-paper min-h-screen flex flex-col relative"
     >
       <Navbar />
 
@@ -22,12 +48,12 @@ const Studio = () => {
           <section className="space-y-12">
             <Philosophy 
               variant="simple" 
-              title="Design Philosophy" 
-              quote="以东方之笔，绘加州之境。"
+              title={philosophy.title}
+              quote={philosophy.headline}
+              quote_cn={philosophy.headline_cn}
             />
             <p className="mt-8 text-moss leading-loose font-light">
-              在 GreenPoint，我们相信园林不是对自然的征服，而是对大地的“留白”。
-              我们融合了京都禅寺的静谧尺度与加州海岸的明亮自由，利用当地抗旱植物营造出既符合现代生活方式，又具有深厚精神内核的景观空间。
+              {philosophy.description}
             </p>
             {/*</div> */}
             
@@ -50,8 +76,10 @@ const Studio = () => {
               <div>
                 <h2 className="text-stone text-xs tracking-zen uppercase mb-6">Visit Us</h2>
                 <address className="not-italic text-ink font-serif text-2xl leading-relaxed">
-                  1200 Coastal Way, <br/>
-                  Santa Monica, CA 90401
+                  {/* 地址行 1 */}
+                  {contact.address_line1}<br />
+                  {/* 地址行 2 */}
+                  {contact.address_line2}
                 </address>
               </div>
 
@@ -59,11 +87,14 @@ const Studio = () => {
               <div>
                 <h2 className="text-stone text-xs tracking-zen uppercase mb-6">Inquiries</h2>
                 <div className="space-y-2">
-                  <p className="text-ink font-serif text-xl hover:text-moss transition-colors cursor-pointer">
-                    hello@greenpoint.landscaping
-                  </p>
+                  <a 
+                    href={`mailto:${contact.email}`}
+                    className="block text-ink font-serif text-xl hover:text-green-800 transition-colors cursor-pointer"
+                  >
+                    {contact.email}
+                  </a>
                   <p className="text-ink font-serif text-xl">
-                    +1 (310) 555-0199
+                    {contact.phone}
                   </p>
                 </div>
               </div>
@@ -71,7 +102,14 @@ const Studio = () => {
               {/* 社交媒体/额外信息 (可选，保持布局平衡) */}
               <div>
                 <h2 className="text-stone text-xs tracking-zen uppercase mb-6">Follow</h2>
-                <p className="text-ink font-serif text-lg italic">@greenpoint.studio</p>
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="text-ink font-serif text-lg italic hover:text-green-800 transition-colors"
+                >
+                  {contact.instagram}
+                </a>  
               </div>
 
             </div>

@@ -1,9 +1,22 @@
 
-// src/components/common/Footer.jsximport React from 'react';
+// src/components/common/Footer.jsx
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useSiteConfig } from '../../hooks/useSiteConfig';
 
 const Footer = () => {
+  const { config } = useSiteConfig();
+
+  // 提取数据（如果 config 还没加载回来，就给个空对象防止报错）
+  // 你也可以在这里保留硬编码的字符串作为“兜底默认值”
+  //const brand = config?.brand || {};
+  const contact = config?.footer?.contact || {};
+  //const social = config?.social || {};
+
+  const currentYear = new Date().getFullYear();
+
+
   // 返回顶部函数：平滑滚动
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,7 +32,7 @@ const Footer = () => {
           {/* Brand: 左侧品牌区 */}
           <div className="md:col-span-4 flex flex-col justify-between">
             <div>
-              <h2 className="text-3xl font-serif tracking-widest mb-6">无 境</h2>
+              <h2 className="text-3xl font-serif tracking-widest mb-6">Green Point</h2>
               <p className="text-sm opacity-60 leading-relaxed max-w-xs font-light">
                 We design landscapes that breathe, age, and evolve with nature.
                 <br />
@@ -42,11 +55,20 @@ const Footer = () => {
           <div className="md:col-span-3">
             <h4 className="text-xs uppercase tracking-[0.2em] text-moss mb-6">Visit</h4>
             <address className="not-italic text-sm opacity-60 leading-loose">
-              No. 88, West Lake District,<br />
-              Hangzhou, China.<br />
+              {/* 地址行 1 */}
+              {contact.address_line1}<br />
+              {/* 地址行 2 */}
+              {contact.address_line2}<br />
               <br />
-              hello@terremoto-east.com<br />
-              +86 21 0000 0000
+              {/* 邮箱 (支持点击发送) */}
+              <a 
+                href={`mailto:${contact.email || "hello@terremoto-east.com"}`} 
+                className="hover:text-white transition-colors"
+              >
+                {contact.email || "hello@terremoto-east.com"}
+              </a><br />
+              {/* 电话 */}
+              {contact.phone || "+86 21 0000 0000"}
             </address>
           </div>
 
@@ -71,7 +93,8 @@ const Footer = () => {
 
         {/* 2. 底部版权：极其低调 */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest opacity-30">
-          <p>© {new Date().getFullYear()} TERREMOTO EAST. All Rights Reserved.</p>
+          {/*<p>© {currentYear} {brand.name_en || "TERREMOTO EAST"}. All Rights Reserved.</p>*/}
+          <p>© {currentYear} GREENPOINT. All Rights Reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-white transition-colors">WeChat</a>
             <a href="#" className="hover:text-white transition-colors">Instagram</a>
